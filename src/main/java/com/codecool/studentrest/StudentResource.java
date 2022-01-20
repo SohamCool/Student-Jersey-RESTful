@@ -1,10 +1,12 @@
 package com.codecool.studentrest;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -40,7 +42,14 @@ public class StudentResource {
 	@GET
 	@Path("/searchstud")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Student getStudent(@FormParam("id") int id, @Context HttpServletResponse servletResponse) throws IOException {
+	public List<Student> getStudent(@FormParam("id") int id, @Context HttpServletResponse servletResponse) throws IOException {
 		return sr.getStudent(id);
+	}
+	
+	@DELETE
+	@Path("/deletestud")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String deleteStudent(@FormParam("id") int id, @Context HttpServletResponse servletResponse) throws IOException, SQLException{
+		return sr.delStudent(id);
 	}
 }

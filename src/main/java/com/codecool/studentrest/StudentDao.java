@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,15 +68,44 @@ public class StudentDao {
 	
 	}
 	
-	public Student getStudent(int id) {
-		 for(Student s : students) {
-			 if(s.getId()==id)
-				 return s;
-		 }
-			 return null;
+	public List<Student> getStudent(int id) {
+		List<Student> students = null;
+		try {
+			con=dbcon.getConnection();
+			pt = con.prepareStatement("select * from STUDENT where STUDENT_ID =?");
+			pt.setInt(1, id);
+			rs = pt.executeQuery();
+			students = new ArrayList<>();
+			while (rs.next()) {
+				int sid = rs.getInt(1);
+				String name = rs.getString(2);
+				String dob = rs.getString(3);
+				String doj = rs.getString(4);
+				
+				students.add(new Student(sid, name, dob, doj));
+				System.out.println("inside getStudent search student"+name);
+			}
+			pt.close();
+			con.close();
+			rs.close();
+			return students;
+
+		}catch(Exception e) {
+			System.out.println(e);
+		}
+	
+		return students;
 		
 	}
 	
+	public String delStudent(int id) throws SQLException {
+		pt = con.prepareStatement("delete from STUDENT where STUDENT_NO=?");
+		pt.setInt(1, id);
+		int result = pt.executeUpdate();
+		if(result == 1)
+			return "Deleted Successfully";
+		return "Failed to Delete";
+	}
 	
 	
 }
