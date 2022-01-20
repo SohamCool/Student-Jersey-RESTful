@@ -98,14 +98,38 @@ public class StudentDao {
 		
 	}
 	
-	public String delStudent(int id) throws SQLException {
+	public String delStudent(int id) {
+		try {
+			con = dbcon.getConnection();
 		pt = con.prepareStatement("delete from STUDENT where STUDENT_NO=?");
 		pt.setInt(1, id);
 		int result = pt.executeUpdate();
 		if(result == 1)
 			return "Deleted Successfully";
+		}catch(Exception e) {
 		return "Failed to Delete";
+		}
+		return "Deleted Successfully";
 	}
 	
+	public String updateStudent(int id, String name, String dob, String doj) {
+		try {
+			con=dbcon.getConnection();
+			st = con.createStatement();
+			pt = con.prepareStatement("update STUDENT set STUDENT_NAME=?,STUDENT_DOB=?,STUDENT_DOJ=? where STUDENT_NO=?");
+			pt.setString(1, name);
+			pt.setString(2, dob);
+			pt.setString(3, doj);
+			pt.setInt(4, id);
+			pt.executeUpdate();
+			st.close();
+			con.close();
+			return "Updated Successfully";
+		}catch(Exception e) {
+			System.out.println(e);
+		}
+		return "Failed to save data";
+	
+	}
 	
 }

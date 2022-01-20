@@ -52,4 +52,17 @@ public class StudentResource {
 	public String deleteStudent(@FormParam("id") int id, @Context HttpServletResponse servletResponse) throws IOException, SQLException{
 		return sr.delStudent(id);
 	}
+	
+	
+	
+	@POST
+	@Path("/updatestud")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String updateStudent(@FormParam("id") int id,
+			@FormParam("name") String name,
+			@FormParam("dob") String dob,
+			@FormParam("doj") String doj,
+			@Context HttpServletResponse servletResponse) throws IOException {
+			return sr.updateStudent(id, name, dob, doj);
+	}
 }
