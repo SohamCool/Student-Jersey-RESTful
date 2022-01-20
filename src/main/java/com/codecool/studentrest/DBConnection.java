@@ -1,12 +1,10 @@
-/*package com.codecool.studentrest;
+package com.codecool.studentrest;
 
 import java.util.*;
 import java.sql.*;
 public class DBConnection{
-	/*public static void main(String[] args) {
-		DBConnection conobj = new DBConnection();
-	}*/
-/*	public Connection getConnection() {
+
+	public Connection getConnection() {
 		Connection con = null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -19,4 +17,4 @@ public class DBConnection{
 		return con;
 	}
 }
-*/
+

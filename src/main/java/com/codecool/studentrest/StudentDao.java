@@ -1,11 +1,17 @@
 package com.codecool.studentrest;
 
-import java.sql.*;
+import java.io.IOException;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
+
+import jakarta.ws.rs.FormParam;
+import jakarta.ws.rs.core.Context;
 
 public class StudentDao {
 	List<Student> students;
@@ -13,34 +19,16 @@ public class StudentDao {
 	ResultSet rs = null;
 	Statement st = null;
 	PreparedStatement pt = null;
-	//DBConnection dbcon = new DBConnection();
-	
-	public StudentDao() {
-	/*	students = new ArrayList<>();
-		
-		Student s1 = new Student();
-		s1.setId(1);
-		s1.setName("Soham");
-		s1.setDob("2008-03-09");
-		s1.setDoj("2014-03-04");
-		
-		Student s2 = new Student();
-		s2.setId(2);
-		s2.setName("Aniket");
-		s2.setDob("2005-03-09");
-		s2.setDoj("2012-03-04");
-		
-		students.add(s1);
-		students.add(s2);	*/
-	}
+	DBConnection dbcon = new DBConnection();
 	
 	public List<Student> getStudents(){
-		students = new ArrayList<>();
+		List<Student> students = null;
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/studentdb", "root", "root");
+			con=dbcon.getConnection();
 			st = con.createStatement();
 			rs = st.executeQuery("select * from STUDENT");
+			students = new ArrayList<>();
+
 			while(rs.next()) {
 				int id = rs.getInt(1);
 				String name = rs.getString(2);
@@ -62,7 +50,24 @@ public class StudentDao {
 	return students;	
 	}
 	
-/*	public Student getStudent(int id) {
+	public String addStudent(int id, String name, String dob, String doj) {
+		try {
+			con=dbcon.getConnection();
+			st = con.createStatement();
+			int result = st.executeUpdate("insert into STUDENT values(" + id + ",'" + name + "','" + dob + "','" + doj + "')");
+			if(result == 1)
+				return (name+"'s data have been saved Successfully...");
+			st.close();
+			con.close();
+			
+		}catch(Exception e) {
+			System.out.println(e);
+		}
+		return "Failed to save data";
+	
+	}
+	
+	public Student getStudent(int id) {
 		 for(Student s : students) {
 			 if(s.getId()==id)
 				 return s;
@@ -70,10 +75,7 @@ public class StudentDao {
 			 return null;
 		
 	}
-
-	public void create(Student s1) {
-		// TODO Auto-generated method stub
-		students.add(s1);
-	}
-	*/
+	
+	
+	
 }
