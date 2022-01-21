@@ -7,14 +7,13 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 public class Student {
 	private int id;
 	private String name, dob, doj;
-	
+
 	public Student(int id, String name, String dob, String doj) {
 		this.id = id;
 		this.name = name;
 		this.dob = dob;
 		this.doj = doj;
 	}
-
 
 	public int getId() {
 		return id;
@@ -36,7 +35,7 @@ public class Student {
 	public void setId(int id) {
 		this.id = id;
 	}
-	
+
 	@XmlElement
 	public void setName(String name) {
 		this.name = name;
@@ -46,11 +45,10 @@ public class Student {
 	public void setDob(String dob) {
 		this.dob = dob;
 	}
-	
+
 	@XmlElement
 	public void setDoj(String doj) {
 		this.doj = doj;
 	}
-	
-		
+
 }
